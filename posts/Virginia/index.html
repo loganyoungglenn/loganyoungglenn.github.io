@@ -22,6 +22,40 @@ ul.task-list li input[type="checkbox"] {
   margin: 0 0.8em 0.2em -1em; /* quarto-specific, see https://github.com/quarto-dev/quarto-cli/issues/4556 */ 
   vertical-align: middle;
 }
+/* CSS for syntax highlighting */
+pre > code.sourceCode { white-space: pre; position: relative; }
+pre > code.sourceCode > span { line-height: 1.25; }
+pre > code.sourceCode > span:empty { height: 1.2em; }
+.sourceCode { overflow: visible; }
+code.sourceCode > span { color: inherit; text-decoration: inherit; }
+div.sourceCode { margin: 1em 0; }
+pre.sourceCode { margin: 0; }
+@media screen {
+div.sourceCode { overflow: auto; }
+}
+@media print {
+pre > code.sourceCode { white-space: pre-wrap; }
+pre > code.sourceCode > span { text-indent: -5em; padding-left: 5em; }
+}
+pre.numberSource code
+  { counter-reset: source-line 0; }
+pre.numberSource code > span
+  { position: relative; left: -4em; counter-increment: source-line; }
+pre.numberSource code > span > a:first-child::before
+  { content: counter(source-line);
+    position: relative; left: -1em; text-align: right; vertical-align: baseline;
+    border: none; display: inline-block;
+    -webkit-touch-callout: none; -webkit-user-select: none;
+    -khtml-user-select: none; -moz-user-select: none;
+    -ms-user-select: none; user-select: none;
+    padding: 0 4px; width: 4em;
+  }
+pre.numberSource { margin-left: 3em;  padding-left: 4px; }
+div.sourceCode
+  {   }
+@media screen {
+pre > code.sourceCode > span > a:first-child::before { text-decoration: underline; }
+}
 </style>
 
 
@@ -115,7 +149,7 @@ ul.task-list li input[type="checkbox"] {
 <header id="title-block-header" class="quarto-title-block default page-columns page-full">
   <div class="quarto-title-banner page-columns page-full">
     <div class="quarto-title column-body">
-      <h1 class="title">Did Virginia Deserve to Make the 2024 NCAA Tournament?</h1>
+      <h1 class="title">Did the Virginia Cavaliers Deserve to Make the 2024 NCAA Tournament?</h1>
                       </div>
   </div>
     
@@ -151,6 +185,857 @@ ul.task-list li input[type="checkbox"] {
 
 
 
+<p>This is a test to see if i can type in this jit</p>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
+✔ dplyr     1.1.4     ✔ readr     2.1.5
+✔ forcats   1.0.0     ✔ stringr   1.5.1
+✔ ggplot2   3.4.4     ✔ tibble    3.2.1
+✔ lubridate 1.9.3     ✔ tidyr     1.3.0
+✔ purrr     1.0.2     
+── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
+✖ dplyr::filter() masks stats::filter()
+✖ dplyr::lag()    masks stats::lag()
+ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"netwl.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 100 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): SCHOOL, CONFERENCE, RECORD, ROAD, NEUTRAL, HOME, QUAD 1, QUAD 2, Q...
+dbl  (4): RANK, PREVIOUS, QUAD 1+2 W, QUAD 3+4 L
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kenpom <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"kenpomwl.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>New names:
+Rows: 100 Columns: 22
+── Column specification
+──────────────────────────────────────────────────────── Delimiter: "," chr
+(2): Team, Conf dbl (20): Rk, W, L, AdjEM...6, AdjO, ...8, AdjD, ...10, AdjT,
+...12, Luck, ....
+ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
+Specify the column types or set `show_col_types = FALSE` to quiet this message.
+• `AdjEM` -&gt; `AdjEM...6`
+• `` -&gt; `...8`
+• `` -&gt; `...10`
+• `` -&gt; `...12`
+• `` -&gt; `...14`
+• `AdjEM` -&gt; `AdjEM...15`
+• `` -&gt; `...16`
+• `` -&gt; `...18`
+• `` -&gt; `...20`
+• `AdjEM` -&gt; `AdjEM...21`
+• `` -&gt; `...22`</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>tourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>nontourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>bubblet <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> teams) </span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>madeit <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> tourneyteam)</span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>nitbound <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> nontourneyteam)</span>
+<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a>vi <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
+<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
+<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>vi, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
+<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#F84C1E"</span>,</span>
+<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
+<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>nitbound, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
+<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#009CDE"</span>,</span>
+<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>)  <span class="sc">+</span></span>
+<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>nitbound,</span>
+<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)) <span class="sc">+</span></span>
+<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>vi,<span class="fu">aes</span>(<span class="at">x=</span>AdjO <span class="sc">+</span> .<span class="dv">2</span>, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)</span>
+<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Offensive Efficiency"</span>, <span class="at">y=</span><span class="st">"Defensive Efficiency"</span>, <span class="at">title=</span><span class="st">"Adjusted Efficiency Between Virginia and Non Tournament Teams"</span>, <span class="at">subtitle=</span><span class="st">"Look where Virginia falls amongst these teams in terms of efficiency!"</span>, <span class="at">caption=</span><span class="st">"Source: Kenpom | By Logan Young-Glenn"</span>) <span class="sc">+</span></span>
+<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>( <span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>), </span>
+<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb7-44"><a href="#cb7-44" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb7-45"><a href="#cb7-45" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Scale for size is already present.
+Adding another scale for size, which will replace the existing scale.</code></pre>
+</div>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-1-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"net2024.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 100 Columns: 14
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr (10): SCHOOL, CONFERENCE, RECORD, ROAD, NEUTRAL, HOME, QUAD 1, QUAD 2, Q...
+dbl  (4): RANK, PREVIOUS, GOODWINS, BADLOSSES
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(net)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 14
+   RANK PREVIOUS SCHOOL  CONFERENCE RECORD ROAD  NEUTRAL HOME  `QUAD 1` `QUAD 2`
+  &lt;dbl&gt;    &lt;dbl&gt; &lt;chr&gt;   &lt;chr&gt;      &lt;chr&gt;  &lt;chr&gt; &lt;chr&gt;   &lt;chr&gt; &lt;chr&gt;    &lt;chr&gt;   
+1     1        1 Houston Big 12     30-4   7-3   6-1     17-0  16-4     3-0     
+2     2        2 UConn   Big East   31-3   9-3   6-0     16-0  13-3     8-0     
+3     3        3 Purdue  Big Ten    29-4   7-3   6-1     16-0  12-4     8-0     
+4     4        4 Arizona Pac-12     25-8   7-4   3-3     15-1  8-3      7-4     
+5     5        5 Auburn  SEC        27-7   5-5   7-1     15-1  3-7      10-0    
+6     6        6 Iowa S… Big 12     27-7   5-5   4-2     18-0  10-6     6-1     
+# ℹ 4 more variables: GOODWINS &lt;dbl&gt;, `QUAD 3` &lt;chr&gt;, `QUAD 4` &lt;chr&gt;,
+#   BADLOSSES &lt;dbl&gt;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>school <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinatti"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>bubbles <span class="ot">&lt;-</span> net <span class="sc">|&gt;</span></span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(RANK) <span class="sc">|&gt;</span></span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( SCHOOL <span class="sc">%in%</span> school)</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a>vc <span class="ot">&lt;-</span> net <span class="sc">|&gt;</span></span>
+<span id="cb13-8"><a href="#cb13-8" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( SCHOOL <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
+<span id="cb13-9"><a href="#cb13-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-10"><a href="#cb13-10" aria-hidden="true" tabindex="-1"></a>winslosses <span class="ot">&lt;-</span> bubbles <span class="sc">|&gt;</span></span>
+<span id="cb13-11"><a href="#cb13-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(SCHOOL) <span class="sc">|&gt;</span></span>
+<span id="cb13-12"><a href="#cb13-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate</span>(</span>
+<span id="cb13-13"><a href="#cb13-13" aria-hidden="true" tabindex="-1"></a>    <span class="at">seasongoodwins =</span> GOODWINS,</span>
+<span id="cb13-14"><a href="#cb13-14" aria-hidden="true" tabindex="-1"></a>    <span class="at">seasonbadlosses =</span> BADLOSSES</span>
+<span id="cb13-15"><a href="#cb13-15" aria-hidden="true" tabindex="-1"></a> )</span>
+<span id="cb13-16"><a href="#cb13-16" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-17"><a href="#cb13-17" aria-hidden="true" tabindex="-1"></a>bc <span class="ot">&lt;-</span> winslosses <span class="sc">|&gt;</span> </span>
+<span id="cb13-18"><a href="#cb13-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">pivot_longer</span>(</span>
+<span id="cb13-19"><a href="#cb13-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">cols=</span><span class="fu">starts_with</span>(<span class="st">"season"</span>), </span>
+<span id="cb13-20"><a href="#cb13-20" aria-hidden="true" tabindex="-1"></a>    <span class="at">names_to=</span><span class="st">"Outcome"</span>, </span>
+<span id="cb13-21"><a href="#cb13-21" aria-hidden="true" tabindex="-1"></a>    <span class="at">values_to=</span><span class="st">"winsandlosses"</span>)</span>
+<span id="cb13-22"><a href="#cb13-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb13-23"><a href="#cb13-23" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb13-24"><a href="#cb13-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>bc, <span class="fu">aes</span>(<span class="at">x=</span>SCHOOL, <span class="at">weight=</span>winsandlosses, <span class="at">fill=</span>Outcome)) <span class="sc">+</span> </span>
+<span id="cb13-25"><a href="#cb13-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-1.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb14"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_bar</span>(<span class="at">data=</span>bc, <span class="fu">aes</span>(<span class="at">x=</span><span class="fu">reorder</span>(SCHOOL, winsandlosses), <span class="at">weight=</span>winsandlosses, <span class="at">fill=</span>Outcome)) <span class="sc">+</span> </span>
+<span id="cb14-3"><a href="#cb14-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">coord_flip</span>()</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<figure class="figure">
+<p><img src="index_files/figure-html/unnamed-chunk-2-2.png" class="img-fluid figure-img" width="672"></p>
+</figure>
+</div>
+</div>
+</div>
+<div class="cell">
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wehoop)</span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>sportsref <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"sportsref.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stderr">
+<pre><code>Rows: 362 Columns: 29
+── Column specification ────────────────────────────────────────────────────────
+Delimiter: ","
+chr  (1): School
+dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
+
+ℹ Use `spec()` to retrieve the full column specification for this data.
+ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb17"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb17-1"><a href="#cb17-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sportsref)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 29
+     Rk School             G     W     L `W-L%`    SRS   SOS `Conf. W` `Conf. L`
+  &lt;dbl&gt; &lt;chr&gt;          &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;
+1     1 Abilene Chris…    34    16    18  0.471  -4.12 -1.12        10        10
+2     2 Air Force         31     9    22  0.29   -4.77  1.43         2        16
+3     3 Akron             35    24    11  0.686   2.77 -2.08        13         5
+4     4 Alabama           37    25    12  0.676  20.7  11.8         13         5
+5     5 Alabama A&amp;M       35    12    23  0.343 -14.4  -7.52         9         9
+6     6 Alabama State     32    13    19  0.406 -11.7  -6.87         8        10
+# ℹ 19 more variables: `Home W` &lt;dbl&gt;, `Home L` &lt;dbl&gt;, `Away W` &lt;dbl&gt;,
+#   `Away L` &lt;dbl&gt;, `Points Tm.` &lt;dbl&gt;, `Points Opp.` &lt;dbl&gt;, Pace &lt;dbl&gt;,
+#   ORtg &lt;dbl&gt;, FTr &lt;dbl&gt;, `3PAr` &lt;dbl&gt;, `TS%` &lt;dbl&gt;, `TRB%` &lt;dbl&gt;,
+#   `AST%` &lt;dbl&gt;, `STL%` &lt;dbl&gt;, `BLK%` &lt;dbl&gt;, `eFG%` &lt;dbl&gt;, `TOV%` &lt;dbl&gt;,
+#   `ORB%` &lt;dbl&gt;, `FT/FGA` &lt;dbl&gt;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb19"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a>schoolsr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana State"</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>bubblesr <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> schoolsr)</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bubblesr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output cell-output-stdout">
+<pre><code># A tibble: 6 × 29
+     Rk School     G     W     L `W-L%`   SRS   SOS `Conf. W` `Conf. L` `Home W`
+  &lt;dbl&gt; &lt;chr&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;  &lt;dbl&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;    &lt;dbl&gt;
+1    51 Cinci…    37    22    15  0.595  15.1  8.49         7        11       16
+2   123 India…    39    32     7  0.821  13.4  2.26        17         3       16
+3   224 Oklah…    32    20    12  0.625  14.7  8.07         8        10       14
+4   235 Pitts…    33    22    11  0.667  14.9  6.92        12         8       13
+5   241 Provi…    35    21    14  0.6    12.6  8.93        10        10       14
+6   268 Seton…    37    25    12  0.676  12.7  8.8         13         7       17
+# ℹ 18 more variables: `Home L` &lt;dbl&gt;, `Away W` &lt;dbl&gt;, `Away L` &lt;dbl&gt;,
+#   `Points Tm.` &lt;dbl&gt;, `Points Opp.` &lt;dbl&gt;, Pace &lt;dbl&gt;, ORtg &lt;dbl&gt;, FTr &lt;dbl&gt;,
+#   `3PAr` &lt;dbl&gt;, `TS%` &lt;dbl&gt;, `TRB%` &lt;dbl&gt;, `AST%` &lt;dbl&gt;, `STL%` &lt;dbl&gt;,
+#   `BLK%` &lt;dbl&gt;, `eFG%` &lt;dbl&gt;, `TOV%` &lt;dbl&gt;, `ORB%` &lt;dbl&gt;, `FT/FGA` &lt;dbl&gt;</code></pre>
+</div>
+<details class="code-fold">
+<summary>Code</summary>
+<div class="sourceCode cell-code" id="cb21"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a>bigmbb <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span> </span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(School <span class="sc">%in%</span> bubblesr)<span class="sc">|&gt;</span></span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(School) <span class="sc">|&gt;</span></span>
+<span id="cb21-5"><a href="#cb21-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb21-6"><a href="#cb21-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS)) </span>
+<span id="cb21-7"><a href="#cb21-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-8"><a href="#cb21-8" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> bubblesr <span class="sc">|&gt;</span></span>
+<span id="cb21-9"><a href="#cb21-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb21-10"><a href="#cb21-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="sc">-</span>School), as.numeric) <span class="sc">|&gt;</span></span>
+<span id="cb21-11"><a href="#cb21-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS))</span>
+<span id="cb21-12"><a href="#cb21-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb21-13"><a href="#cb21-13" aria-hidden="true" tabindex="-1"></a> tbl <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb21-14"><a href="#cb21-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb21-15"><a href="#cb21-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">School =</span> <span class="st">"Team"</span>,</span>
+<span id="cb21-16"><a href="#cb21-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRS =</span> <span class="st">"Simple Rating"</span>,</span>
+<span id="cb21-17"><a href="#cb21-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">SOS =</span> <span class="st">"Schedule Strength"</span>,</span>
+<span id="cb21-18"><a href="#cb21-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">W =</span> <span class="st">"Wins"</span>,</span>
+<span id="cb21-19"><a href="#cb21-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">L =</span> <span class="st">"Losses"</span></span>
+<span id="cb21-20"><a href="#cb21-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb21-21"><a href="#cb21-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb21-22"><a href="#cb21-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**By:** Logan Young-Glenn  |  **Source:** [Sports Reference](https://www.sports-reference.com/cbb/seasons/men/2024-advanced-school-stats.html)"</span>)</span>
+<span id="cb21-23"><a href="#cb21-23" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb21-24"><a href="#cb21-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_row_striping</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb21-25"><a href="#cb21-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_table_lines</span>(<span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb21-26"><a href="#cb21-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb21-27"><a href="#cb21-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>()),</span>
+<span id="cb21-28"><a href="#cb21-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb21-29"><a href="#cb21-29" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"bottom"</span>, <span class="at">weight =</span> <span class="fu">px</span>(<span class="dv">3</span>)),</span>
+<span id="cb21-30"><a href="#cb21-30" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size=</span><span class="dv">14</span>)</span>
+<span id="cb21-31"><a href="#cb21-31" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb21-32"><a href="#cb21-32" aria-hidden="true" tabindex="-1"></a>   )<span class="sc">|&gt;</span></span>
+<span id="cb21-33"><a href="#cb21-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb21-34"><a href="#cb21-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb21-35"><a href="#cb21-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#232D4B"</span>),</span>
+<span id="cb21-36"><a href="#cb21-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#F84C1E"</span>)</span>
+<span id="cb21-37"><a href="#cb21-37" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb21-38"><a href="#cb21-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb21-39"><a href="#cb21-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> School <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
+<span id="cb21-40"><a href="#cb21-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb21-41"><a href="#cb21-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb21-42"><a href="#cb21-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"How Does Virginia Compare to Teams That Did Not Make the Tournament?"</span>,</span>
+<span id="cb21-43"><a href="#cb21-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Cavaliers are dead last in simple rating compared to these teams on the opposite side of the bubble! Virginia's strength of schedule is also not a standout amongst the group. "</span></span>
+<span id="cb21-44"><a href="#cb21-44" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+</details>
+<div class="cell-output-display">
+<div>
+<div id="lryotzwhgy" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lryotzwhgy table {
+  font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+#lryotzwhgy thead, #lryotzwhgy tbody, #lryotzwhgy tfoot, #lryotzwhgy tr, #lryotzwhgy td, #lryotzwhgy th {
+  border-style: none;
+}
+
+#lryotzwhgy p {
+  margin: 0;
+  padding: 0;
+}
+
+#lryotzwhgy .gt_table {
+  display: table;
+  border-collapse: collapse;
+  line-height: normal;
+  margin-left: auto;
+  margin-right: auto;
+  color: #333333;
+  font-size: 16px;
+  font-weight: normal;
+  font-style: none;
+  background-color: #FFFFFF;
+  width: auto;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #A8A8A8;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #A8A8A8;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_caption {
+  padding-top: 4px;
+  padding-bottom: 4px;
+}
+
+#lryotzwhgy .gt_title {
+  color: #333333;
+  font-size: 125%;
+  font-weight: initial;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-color: #FFFFFF;
+  border-bottom-width: 0;
+}
+
+#lryotzwhgy .gt_subtitle {
+  color: #333333;
+  font-size: 85%;
+  font-weight: initial;
+  padding-top: 3px;
+  padding-bottom: 5px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-color: #FFFFFF;
+  border-top-width: 0;
+}
+
+#lryotzwhgy .gt_heading {
+  background-color: #FFFFFF;
+  text-align: center;
+  border-bottom-color: #FFFFFF;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_bottom_border {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_col_headings {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_col_heading {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 6px;
+  padding-left: 5px;
+  padding-right: 5px;
+  overflow-x: hidden;
+}
+
+#lryotzwhgy .gt_column_spanner_outer {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: normal;
+  text-transform: inherit;
+  padding-top: 0;
+  padding-bottom: 0;
+  padding-left: 4px;
+  padding-right: 4px;
+}
+
+#lryotzwhgy .gt_column_spanner_outer:first-child {
+  padding-left: 0;
+}
+
+#lryotzwhgy .gt_column_spanner_outer:last-child {
+  padding-right: 0;
+}
+
+#lryotzwhgy .gt_column_spanner {
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: bottom;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  overflow-x: hidden;
+  display: inline-block;
+  width: 100%;
+}
+
+#lryotzwhgy .gt_spanner_row {
+  border-bottom-style: hidden;
+}
+
+#lryotzwhgy .gt_group_heading {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  text-align: left;
+}
+
+#lryotzwhgy .gt_empty_group_heading {
+  padding: 0.5px;
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  vertical-align: middle;
+}
+
+#lryotzwhgy .gt_from_md > :first-child {
+  margin-top: 0;
+}
+
+#lryotzwhgy .gt_from_md > :last-child {
+  margin-bottom: 0;
+}
+
+#lryotzwhgy .gt_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin: 10px;
+  border-top-style: none;
+  border-top-width: 1px;
+  border-top-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 1px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 1px;
+  border-right-color: #D3D3D3;
+  vertical-align: middle;
+  overflow-x: hidden;
+}
+
+#lryotzwhgy .gt_stub {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lryotzwhgy .gt_stub_row_group {
+  color: #333333;
+  background-color: #FFFFFF;
+  font-size: 100%;
+  font-weight: initial;
+  text-transform: inherit;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+  padding-left: 5px;
+  padding-right: 5px;
+  vertical-align: top;
+}
+
+#lryotzwhgy .gt_row_group_first td {
+  border-top-width: 2px;
+}
+
+#lryotzwhgy .gt_row_group_first th {
+  border-top-width: 2px;
+}
+
+#lryotzwhgy .gt_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lryotzwhgy .gt_first_summary_row {
+  border-top-style: none;
+  border-top-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_first_summary_row.thick {
+  border-top-width: 2px;
+}
+
+#lryotzwhgy .gt_last_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_grand_summary_row {
+  color: #333333;
+  background-color: #FFFFFF;
+  text-transform: inherit;
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lryotzwhgy .gt_first_grand_summary_row {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-top-style: none;
+  border-top-width: 6px;
+  border-top-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_last_grand_summary_row_top {
+  padding-top: 8px;
+  padding-bottom: 8px;
+  padding-left: 5px;
+  padding-right: 5px;
+  border-bottom-style: none;
+  border-bottom-width: 6px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_striped {
+  background-color: rgba(128, 128, 128, 0.05);
+}
+
+#lryotzwhgy .gt_table_body {
+  border-top-style: none;
+  border-top-width: 2px;
+  border-top-color: #D3D3D3;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_footnotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_footnote {
+  margin: 0px;
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lryotzwhgy .gt_sourcenotes {
+  color: #333333;
+  background-color: #FFFFFF;
+  border-bottom-style: none;
+  border-bottom-width: 2px;
+  border-bottom-color: #D3D3D3;
+  border-left-style: none;
+  border-left-width: 2px;
+  border-left-color: #D3D3D3;
+  border-right-style: none;
+  border-right-width: 2px;
+  border-right-color: #D3D3D3;
+}
+
+#lryotzwhgy .gt_sourcenote {
+  font-size: 90%;
+  padding-top: 4px;
+  padding-bottom: 4px;
+  padding-left: 5px;
+  padding-right: 5px;
+}
+
+#lryotzwhgy .gt_left {
+  text-align: left;
+}
+
+#lryotzwhgy .gt_center {
+  text-align: center;
+}
+
+#lryotzwhgy .gt_right {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+#lryotzwhgy .gt_font_normal {
+  font-weight: normal;
+}
+
+#lryotzwhgy .gt_font_bold {
+  font-weight: bold;
+}
+
+#lryotzwhgy .gt_font_italic {
+  font-style: italic;
+}
+
+#lryotzwhgy .gt_super {
+  font-size: 65%;
+}
+
+#lryotzwhgy .gt_footnote_marks {
+  font-size: 75%;
+  vertical-align: 0.4em;
+  position: initial;
+}
+
+#lryotzwhgy .gt_asterisk {
+  font-size: 100%;
+  vertical-align: 0;
+}
+
+#lryotzwhgy .gt_indent_1 {
+  text-indent: 5px;
+}
+
+#lryotzwhgy .gt_indent_2 {
+  text-indent: 10px;
+}
+
+#lryotzwhgy .gt_indent_3 {
+  text-indent: 15px;
+}
+
+#lryotzwhgy .gt_indent_4 {
+  text-indent: 20px;
+}
+
+#lryotzwhgy .gt_indent_5 {
+  text-indent: 25px;
+}
+</style>
+
+<table class="gt_table table table-sm table-striped small" data-quarto-postprocess="true" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+<thead>
+<tr class="header gt_heading">
+<th colspan="5" class="gt_heading gt_title gt_font_normal">How Does Virginia Compare to Teams That Did Not Make the Tournament?</th>
+</tr>
+<tr class="odd gt_heading">
+<th colspan="5" class="gt_heading gt_subtitle gt_font_normal gt_bottom_border">The Cavaliers are dead last in simple rating compared to these teams on the opposite side of the bubble! Virginia's strength of schedule is also not a standout amongst the group.</th>
+</tr>
+<tr class="header gt_col_headings">
+<th id="Team" class="gt_col_heading gt_columns_bottom_border gt_left" data-quarto-table-cell-role="th" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 14; font-weight: bold" scope="col">Team</th>
+<th id="Simple Rating" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 14; font-weight: bold" scope="col">Simple Rating</th>
+<th id="Schedule Strength" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 14; font-weight: bold" scope="col">Schedule Strength</th>
+<th id="Wins" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 14; font-weight: bold" scope="col">Wins</th>
+<th id="Losses" class="gt_col_heading gt_columns_bottom_border gt_right" data-quarto-table-cell-role="th" style="border-bottom-width: 3px; border-bottom-style: solid; border-bottom-color: #000000; font-size: 14; font-weight: bold" scope="col">Losses</th>
+</tr>
+</thead>
+<tbody class="gt_table_body">
+<tr class="odd">
+<td class="gt_row gt_left" headers="School">St. John's (NY)</td>
+<td class="gt_row gt_right" headers="SRS">16.49</td>
+<td class="gt_row gt_right" headers="SOS">9.58</td>
+<td class="gt_row gt_right" headers="W">20</td>
+<td class="gt_row gt_right" headers="L">13</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="School">Cincinnati</td>
+<td class="gt_row gt_right gt_striped" headers="SRS">15.06</td>
+<td class="gt_row gt_right gt_striped" headers="SOS">8.49</td>
+<td class="gt_row gt_right gt_striped" headers="W">22</td>
+<td class="gt_row gt_right gt_striped" headers="L">15</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="School">Wake Forest</td>
+<td class="gt_row gt_right" headers="SRS">14.94</td>
+<td class="gt_row gt_right" headers="SOS">7.52</td>
+<td class="gt_row gt_right" headers="W">21</td>
+<td class="gt_row gt_right" headers="L">14</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="School">Pittsburgh</td>
+<td class="gt_row gt_right gt_striped" headers="SRS">14.89</td>
+<td class="gt_row gt_right gt_striped" headers="SOS">6.92</td>
+<td class="gt_row gt_right gt_striped" headers="W">22</td>
+<td class="gt_row gt_right gt_striped" headers="L">11</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="School">Oklahoma</td>
+<td class="gt_row gt_right" headers="SRS">14.66</td>
+<td class="gt_row gt_right" headers="SOS">8.07</td>
+<td class="gt_row gt_right" headers="W">20</td>
+<td class="gt_row gt_right" headers="L">12</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="School">Villanova</td>
+<td class="gt_row gt_right gt_striped" headers="SRS">14.44</td>
+<td class="gt_row gt_right gt_striped" headers="SOS">9.82</td>
+<td class="gt_row gt_right gt_striped" headers="W">18</td>
+<td class="gt_row gt_right gt_striped" headers="L">16</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="School">Indiana State</td>
+<td class="gt_row gt_right" headers="SRS">13.44</td>
+<td class="gt_row gt_right" headers="SOS">2.26</td>
+<td class="gt_row gt_right" headers="W">32</td>
+<td class="gt_row gt_right" headers="L">7</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="School">Seton Hall</td>
+<td class="gt_row gt_right gt_striped" headers="SRS">12.67</td>
+<td class="gt_row gt_right gt_striped" headers="SOS">8.80</td>
+<td class="gt_row gt_right gt_striped" headers="W">25</td>
+<td class="gt_row gt_right gt_striped" headers="L">12</td>
+</tr>
+<tr class="odd">
+<td class="gt_row gt_left" headers="School">Providence</td>
+<td class="gt_row gt_right" headers="SRS">12.56</td>
+<td class="gt_row gt_right" headers="SOS">8.93</td>
+<td class="gt_row gt_right" headers="W">21</td>
+<td class="gt_row gt_right" headers="L">14</td>
+</tr>
+<tr class="even">
+<td class="gt_row gt_left gt_striped" headers="School" style="background-color: #232D4B; color: #F84C1E">Virginia</td>
+<td class="gt_row gt_right gt_striped" headers="SRS" style="background-color: #232D4B; color: #F84C1E">10.45</td>
+<td class="gt_row gt_right gt_striped" headers="SOS" style="background-color: #232D4B; color: #F84C1E">7.31</td>
+<td class="gt_row gt_right gt_striped" headers="W" style="background-color: #232D4B; color: #F84C1E">23</td>
+<td class="gt_row gt_right gt_striped" headers="L" style="background-color: #232D4B; color: #F84C1E">11</td>
+</tr>
+</tbody><tfoot class="gt_sourcenotes">
+<tr class="odd">
+<td colspan="5" class="gt_sourcenote"><strong>By:</strong> Logan Young-Glenn | <strong>Source:</strong> <a href="https://www.sports-reference.com/cbb/seasons/men/2024-advanced-school-stats.html">Sports Reference</a></td>
+</tr>
+</tfoot>
+
+</table>
+
+</div>
+</div>
+</div>
+</div>
 
 
 
