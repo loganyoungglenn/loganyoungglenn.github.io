@@ -194,115 +194,60 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wehoop)</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"netwl.csv"</span>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>kenpom <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"kenpomwl.csv"</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a>tourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a>nontourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>bubblet <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> teams) </span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>madeit <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> tourneyteam)</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-23"><a href="#cb1-23" aria-hidden="true" tabindex="-1"></a>nitbound <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb1-24"><a href="#cb1-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb1-25"><a href="#cb1-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> nontourneyteam)</span>
+<span id="cb1-26"><a href="#cb1-26" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-27"><a href="#cb1-27" aria-hidden="true" tabindex="-1"></a>vi <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
+<span id="cb1-28"><a href="#cb1-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
+<span id="cb1-29"><a href="#cb1-29" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-30"><a href="#cb1-30" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
+<span id="cb1-31"><a href="#cb1-31" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
+<span id="cb1-32"><a href="#cb1-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>vi, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
+<span id="cb1-33"><a href="#cb1-33" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#F84C1E"</span>,</span>
+<span id="cb1-34"><a href="#cb1-34" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
+<span id="cb1-35"><a href="#cb1-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
+<span id="cb1-36"><a href="#cb1-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>nitbound, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
+<span id="cb1-37"><a href="#cb1-37" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#009CDE"</span>,</span>
+<span id="cb1-38"><a href="#cb1-38" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>)  <span class="sc">+</span></span>
+<span id="cb1-39"><a href="#cb1-39" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb1-40"><a href="#cb1-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>nitbound,</span>
+<span id="cb1-41"><a href="#cb1-41" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)) <span class="sc">+</span></span>
+<span id="cb1-42"><a href="#cb1-42" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb1-43"><a href="#cb1-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>vi,<span class="fu">aes</span>(<span class="at">x=</span>AdjO <span class="sc">+</span> .<span class="dv">2</span>, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)</span>
+<span id="cb1-44"><a href="#cb1-44" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
+<span id="cb1-45"><a href="#cb1-45" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Offensive Efficiency"</span>, <span class="at">y=</span><span class="st">"Defensive Efficiency"</span>, <span class="at">title=</span><span class="st">"Adjusted Efficiency Between Virginia and Non-Tournament Teams"</span>, <span class="at">subtitle=</span><span class="st">"Look where Virginia falls amongst these teams in terms of efficiency!"</span>, <span class="at">caption=</span><span class="st">"Source: Kenpom | By Logan Young-Glenn"</span>) <span class="sc">+</span></span>
+<span id="cb1-46"><a href="#cb1-46" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb1-47"><a href="#cb1-47" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb1-48"><a href="#cb1-48" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>( <span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb1-49"><a href="#cb1-49" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>), </span>
+<span id="cb1-50"><a href="#cb1-50" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb1-51"><a href="#cb1-51" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb1-52"><a href="#cb1-52" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb1-53"><a href="#cb1-53" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
-<div class="cell-output cell-output-stderr">
-<pre><code>── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──
-✔ dplyr     1.1.4     ✔ readr     2.1.5
-✔ forcats   1.0.0     ✔ stringr   1.5.1
-✔ ggplot2   3.4.4     ✔ tibble    3.2.1
-✔ lubridate 1.9.3     ✔ tidyr     1.3.0
-✔ purrr     1.0.2     
-── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──
-✖ dplyr::filter() masks stats::filter()
-✖ dplyr::lag()    masks stats::lag()
-ℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb3"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(gt)</span>
-<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggrepel)</span>
-<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
-<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(ggbeeswarm)</span>
-<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(wehoop)</span>
-<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>net <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"netwl.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 100 Columns: 14
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr (10): SCHOOL, CONFERENCE, RECORD, ROAD, NEUTRAL, HOME, QUAD 1, QUAD 2, Q...
-dbl  (4): RANK, PREVIOUS, QUAD 1+2 W, QUAD 3+4 L
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a>kenpom <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"kenpomwl.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>New names:
-Rows: 100 Columns: 22
-── Column specification
-──────────────────────────────────────────────────────── Delimiter: "," chr
-(2): Team, Conf dbl (20): Rk, W, L, AdjEM...6, AdjO, ...8, AdjD, ...10, AdjT,
-...12, Luck, ....
-ℹ Use `spec()` to retrieve the full column specification for this data. ℹ
-Specify the column types or set `show_col_types = FALSE` to quiet this message.
-• `AdjEM` -&gt; `AdjEM...6`
-• `` -&gt; `...8`
-• `` -&gt; `...10`
-• `` -&gt; `...12`
-• `` -&gt; `...14`
-• `AdjEM` -&gt; `AdjEM...15`
-• `` -&gt; `...16`
-• `` -&gt; `...18`
-• `` -&gt; `...20`
-• `AdjEM` -&gt; `AdjEM...21`
-• `` -&gt; `...22`</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>teams <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
-<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a>tourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Colorado St."</span>,<span class="st">"Nevada"</span>,<span class="st">"Boise St."</span>,<span class="st">"Colorado"</span>)</span>
-<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>nontourneyteam <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana St."</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
-<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>bubblet <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
-<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> teams) </span>
-<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>madeit <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
-<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> tourneyteam)</span>
-<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a>nitbound <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
-<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb7-15"><a href="#cb7-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">%in%</span> nontourneyteam)</span>
-<span id="cb7-16"><a href="#cb7-16" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-17"><a href="#cb7-17" aria-hidden="true" tabindex="-1"></a>vi <span class="ot">&lt;-</span> kenpom <span class="sc">|&gt;</span></span>
-<span id="cb7-18"><a href="#cb7-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Team <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
-<span id="cb7-19"><a href="#cb7-19" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb7-20"><a href="#cb7-20" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span></span>
-<span id="cb7-21"><a href="#cb7-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
-<span id="cb7-22"><a href="#cb7-22" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>vi, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
-<span id="cb7-23"><a href="#cb7-23" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#F84C1E"</span>,</span>
-<span id="cb7-24"><a href="#cb7-24" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>) <span class="sc">+</span></span>
-<span id="cb7-25"><a href="#cb7-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">scale_size</span>(<span class="at">range =</span> <span class="fu">c</span>(<span class="dv">5</span>, <span class="dv">10</span>), <span class="at">name=</span><span class="st">"Adjusted Efficiency"</span>) <span class="sc">+</span></span>
-<span id="cb7-26"><a href="#cb7-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_point</span>(<span class="at">data=</span>nitbound, <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">size=</span> AdjEM...<span class="dv">6</span>),</span>
-<span id="cb7-27"><a href="#cb7-27" aria-hidden="true" tabindex="-1"></a>             <span class="at">color=</span><span class="st">"#009CDE"</span>,</span>
-<span id="cb7-28"><a href="#cb7-28" aria-hidden="true" tabindex="-1"></a>                      <span class="at">alpha =</span> <span class="dv">1</span>)  <span class="sc">+</span></span>
-<span id="cb7-29"><a href="#cb7-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
-<span id="cb7-30"><a href="#cb7-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>nitbound,</span>
-<span id="cb7-31"><a href="#cb7-31" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>AdjO, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)) <span class="sc">+</span></span>
-<span id="cb7-32"><a href="#cb7-32" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
-<span id="cb7-33"><a href="#cb7-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>vi,<span class="fu">aes</span>(<span class="at">x=</span>AdjO <span class="sc">+</span> .<span class="dv">2</span>, <span class="at">y=</span>AdjD, <span class="at">label=</span>Team)</span>
-<span id="cb7-34"><a href="#cb7-34" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">+</span></span>
-<span id="cb7-35"><a href="#cb7-35" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Offensive Efficiency"</span>, <span class="at">y=</span><span class="st">"Defensive Efficiency"</span>, <span class="at">title=</span><span class="st">"Adjusted Efficiency Between Virginia and Non-Tournament Teams"</span>, <span class="at">subtitle=</span><span class="st">"Look where Virginia falls amongst these teams in terms of efficiency!"</span>, <span class="at">caption=</span><span class="st">"Source: Kenpom | By Logan Young-Glenn"</span>) <span class="sc">+</span></span>
-<span id="cb7-36"><a href="#cb7-36" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb7-37"><a href="#cb7-37" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb7-38"><a href="#cb7-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>( <span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb7-39"><a href="#cb7-39" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>), </span>
-<span id="cb7-40"><a href="#cb7-40" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb7-41"><a href="#cb7-41" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb7-42"><a href="#cb7-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
-<span id="cb7-43"><a href="#cb7-43" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Scale for size is already present.
-Adding another scale for size, which will replace the existing scale.</code></pre>
-</div>
 <div class="cell-output-display">
 <div>
 <figure class="figure">
@@ -314,21 +259,9 @@ Adding another scale for size, which will replace the existing scale.</code></pr
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>sportsref <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"sportsref.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 362 Columns: 29
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (1): School
-dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb11"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sportsref)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb2"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>sportsref <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"sportsref.csv"</span>)</span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(sportsref)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 29
@@ -348,13 +281,13 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb13"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a>schoolsr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana State"</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
-<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>bubblesr <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span></span>
-<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> schoolsr)</span>
-<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb13-7"><a href="#cb13-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bubblesr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>schoolsr <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana State"</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>bubblesr <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> schoolsr)</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(bubblesr)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 29
@@ -373,70 +306,70 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb15"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a>bigmbb <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span> </span>
-<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(School <span class="sc">%in%</span> bubblesr)<span class="sc">|&gt;</span></span>
-<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
-<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(School) <span class="sc">|&gt;</span></span>
-<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
-<span id="cb15-6"><a href="#cb15-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS)) </span>
-<span id="cb15-7"><a href="#cb15-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-8"><a href="#cb15-8" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> bubblesr <span class="sc">|&gt;</span></span>
-<span id="cb15-9"><a href="#cb15-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
-<span id="cb15-10"><a href="#cb15-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="sc">-</span>School), as.numeric) <span class="sc">|&gt;</span></span>
-<span id="cb15-11"><a href="#cb15-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS))</span>
-<span id="cb15-12"><a href="#cb15-12" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb15-13"><a href="#cb15-13" aria-hidden="true" tabindex="-1"></a> tbl <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
-<span id="cb15-14"><a href="#cb15-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
-<span id="cb15-15"><a href="#cb15-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">School =</span> <span class="st">"Team"</span>,</span>
-<span id="cb15-16"><a href="#cb15-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRS =</span> <span class="st">"Simple Rating"</span>,</span>
-<span id="cb15-17"><a href="#cb15-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">SOS =</span> <span class="st">"Schedule Strength"</span>,</span>
-<span id="cb15-18"><a href="#cb15-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">W =</span> <span class="st">"Wins"</span>,</span>
-<span id="cb15-19"><a href="#cb15-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">L =</span> <span class="st">"Losses"</span></span>
-<span id="cb15-20"><a href="#cb15-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb15-21"><a href="#cb15-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
-<span id="cb15-22"><a href="#cb15-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**By:** Logan Young-Glenn  |  **Source:** [Sports Reference](https://www.sports-reference.com/cbb/seasons/men/2024-advanced-school-stats.html)"</span>)</span>
-<span id="cb15-23"><a href="#cb15-23" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
-<span id="cb15-24"><a href="#cb15-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_row_striping</span>() <span class="sc">|&gt;</span> </span>
-<span id="cb15-25"><a href="#cb15-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_table_lines</span>(<span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
-<span id="cb15-26"><a href="#cb15-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb15-27"><a href="#cb15-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>()),</span>
-<span id="cb15-28"><a href="#cb15-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb15-29"><a href="#cb15-29" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"bottom"</span>, <span class="at">weight =</span> <span class="fu">px</span>(<span class="dv">3</span>)),</span>
-<span id="cb15-30"><a href="#cb15-30" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size=</span><span class="dv">14</span>)</span>
-<span id="cb15-31"><a href="#cb15-31" aria-hidden="true" tabindex="-1"></a>     )</span>
-<span id="cb15-32"><a href="#cb15-32" aria-hidden="true" tabindex="-1"></a>   )<span class="sc">|&gt;</span></span>
-<span id="cb15-33"><a href="#cb15-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
-<span id="cb15-34"><a href="#cb15-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
-<span id="cb15-35"><a href="#cb15-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#232D4B"</span>),</span>
-<span id="cb15-36"><a href="#cb15-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#F84C1E"</span>)</span>
-<span id="cb15-37"><a href="#cb15-37" aria-hidden="true" tabindex="-1"></a>      ),</span>
-<span id="cb15-38"><a href="#cb15-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
-<span id="cb15-39"><a href="#cb15-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> School <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
-<span id="cb15-40"><a href="#cb15-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
-<span id="cb15-41"><a href="#cb15-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
-<span id="cb15-42"><a href="#cb15-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"How Does Virginia Compare to Teams That Did Not Make the Tournament?"</span>,</span>
-<span id="cb15-43"><a href="#cb15-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Cavaliers are dead last in simple rating compared to these teams on the opposite side of the bubble! Virginia's strength of schedule is also not a standout amongst the group. "</span></span>
-<span id="cb15-44"><a href="#cb15-44" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>bigmbb <span class="ot">&lt;-</span> sportsref <span class="sc">|&gt;</span> </span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>(School <span class="sc">%in%</span> bubblesr)<span class="sc">|&gt;</span></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">group_by</span>(School) <span class="sc">|&gt;</span></span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS)) </span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-8"><a href="#cb6-8" aria-hidden="true" tabindex="-1"></a>tbl <span class="ot">&lt;-</span> bubblesr <span class="sc">|&gt;</span></span>
+<span id="cb6-9"><a href="#cb6-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">select</span>(School, SRS, SOS, W, L) <span class="sc">|&gt;</span></span>
+<span id="cb6-10"><a href="#cb6-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">mutate_at</span>(<span class="fu">vars</span>(<span class="sc">-</span>School), as.numeric) <span class="sc">|&gt;</span></span>
+<span id="cb6-11"><a href="#cb6-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(<span class="fu">desc</span>(SRS))</span>
+<span id="cb6-12"><a href="#cb6-12" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-13"><a href="#cb6-13" aria-hidden="true" tabindex="-1"></a> tbl <span class="sc">|&gt;</span> <span class="fu">gt</span>() <span class="sc">|&gt;</span></span>
+<span id="cb6-14"><a href="#cb6-14" aria-hidden="true" tabindex="-1"></a>  <span class="fu">cols_label</span>(</span>
+<span id="cb6-15"><a href="#cb6-15" aria-hidden="true" tabindex="-1"></a>    <span class="at">School =</span> <span class="st">"Team"</span>,</span>
+<span id="cb6-16"><a href="#cb6-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">SRS =</span> <span class="st">"Simple Rating"</span>,</span>
+<span id="cb6-17"><a href="#cb6-17" aria-hidden="true" tabindex="-1"></a>    <span class="at">SOS =</span> <span class="st">"Schedule Strength"</span>,</span>
+<span id="cb6-18"><a href="#cb6-18" aria-hidden="true" tabindex="-1"></a>    <span class="at">W =</span> <span class="st">"Wins"</span>,</span>
+<span id="cb6-19"><a href="#cb6-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">L =</span> <span class="st">"Losses"</span></span>
+<span id="cb6-20"><a href="#cb6-20" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb6-21"><a href="#cb6-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_source_note</span>(</span>
+<span id="cb6-22"><a href="#cb6-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">source_note =</span> <span class="fu">md</span>(<span class="st">"**By:** Logan Young-Glenn  |  **Source:** [Sports Reference](https://www.sports-reference.com/cbb/seasons/men/2024-advanced-school-stats.html)"</span>)</span>
+<span id="cb6-23"><a href="#cb6-23" aria-hidden="true" tabindex="-1"></a>  )<span class="sc">|&gt;</span></span>
+<span id="cb6-24"><a href="#cb6-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_row_striping</span>() <span class="sc">|&gt;</span> </span>
+<span id="cb6-25"><a href="#cb6-25" aria-hidden="true" tabindex="-1"></a>  <span class="fu">opt_table_lines</span>(<span class="st">"none"</span>) <span class="sc">|&gt;</span></span>
+<span id="cb6-26"><a href="#cb6-26" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-27"><a href="#cb6-27" aria-hidden="true" tabindex="-1"></a>     <span class="at">locations =</span> <span class="fu">cells_column_labels</span>(<span class="at">columns =</span> <span class="fu">everything</span>()),</span>
+<span id="cb6-28"><a href="#cb6-28" aria-hidden="true" tabindex="-1"></a>     <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb6-29"><a href="#cb6-29" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_borders</span>(<span class="at">sides =</span> <span class="st">"bottom"</span>, <span class="at">weight =</span> <span class="fu">px</span>(<span class="dv">3</span>)),</span>
+<span id="cb6-30"><a href="#cb6-30" aria-hidden="true" tabindex="-1"></a>       <span class="fu">cell_text</span>(<span class="at">weight =</span> <span class="st">"bold"</span>, <span class="at">size=</span><span class="dv">14</span>)</span>
+<span id="cb6-31"><a href="#cb6-31" aria-hidden="true" tabindex="-1"></a>     )</span>
+<span id="cb6-32"><a href="#cb6-32" aria-hidden="true" tabindex="-1"></a>   )<span class="sc">|&gt;</span></span>
+<span id="cb6-33"><a href="#cb6-33" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_style</span>(</span>
+<span id="cb6-34"><a href="#cb6-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">style =</span> <span class="fu">list</span>(</span>
+<span id="cb6-35"><a href="#cb6-35" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_fill</span>(<span class="at">color =</span> <span class="st">"#232D4B"</span>),</span>
+<span id="cb6-36"><a href="#cb6-36" aria-hidden="true" tabindex="-1"></a>      <span class="fu">cell_text</span>(<span class="at">color =</span> <span class="st">"#F84C1E"</span>)</span>
+<span id="cb6-37"><a href="#cb6-37" aria-hidden="true" tabindex="-1"></a>      ),</span>
+<span id="cb6-38"><a href="#cb6-38" aria-hidden="true" tabindex="-1"></a>    <span class="at">locations =</span> <span class="fu">cells_body</span>(</span>
+<span id="cb6-39"><a href="#cb6-39" aria-hidden="true" tabindex="-1"></a>      <span class="at">rows =</span> School <span class="sc">==</span> <span class="st">"Virginia"</span>)</span>
+<span id="cb6-40"><a href="#cb6-40" aria-hidden="true" tabindex="-1"></a>  ) <span class="sc">|&gt;</span></span>
+<span id="cb6-41"><a href="#cb6-41" aria-hidden="true" tabindex="-1"></a>  <span class="fu">tab_header</span>(</span>
+<span id="cb6-42"><a href="#cb6-42" aria-hidden="true" tabindex="-1"></a>    <span class="at">title =</span> <span class="st">"How Does Virginia Compare to Teams That Did Not Make the Tournament?"</span>,</span>
+<span id="cb6-43"><a href="#cb6-43" aria-hidden="true" tabindex="-1"></a>    <span class="at">subtitle =</span> <span class="st">"The Cavaliers are dead last in simple rating compared to these teams on the opposite side of the bubble! Virginia's strength of schedule is also not a standout amongst the group. "</span></span>
+<span id="cb6-44"><a href="#cb6-44" aria-hidden="true" tabindex="-1"></a>  )</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
-<div id="dpfgxhrorl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#dpfgxhrorl table {
+<div id="lmbdxgtrca" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#lmbdxgtrca table {
   font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
 
-#dpfgxhrorl thead, #dpfgxhrorl tbody, #dpfgxhrorl tfoot, #dpfgxhrorl tr, #dpfgxhrorl td, #dpfgxhrorl th {
+#lmbdxgtrca thead, #lmbdxgtrca tbody, #lmbdxgtrca tfoot, #lmbdxgtrca tr, #lmbdxgtrca td, #lmbdxgtrca th {
   border-style: none;
 }
 
-#dpfgxhrorl p {
+#lmbdxgtrca p {
   margin: 0;
   padding: 0;
 }
 
-#dpfgxhrorl .gt_table {
+#lmbdxgtrca .gt_table {
   display: table;
   border-collapse: collapse;
   line-height: normal;
@@ -462,12 +395,12 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-left-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_caption {
+#lmbdxgtrca .gt_caption {
   padding-top: 4px;
   padding-bottom: 4px;
 }
 
-#dpfgxhrorl .gt_title {
+#lmbdxgtrca .gt_title {
   color: #333333;
   font-size: 125%;
   font-weight: initial;
@@ -479,7 +412,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-bottom-width: 0;
 }
 
-#dpfgxhrorl .gt_subtitle {
+#lmbdxgtrca .gt_subtitle {
   color: #333333;
   font-size: 85%;
   font-weight: initial;
@@ -491,7 +424,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-top-width: 0;
 }
 
-#dpfgxhrorl .gt_heading {
+#lmbdxgtrca .gt_heading {
   background-color: #FFFFFF;
   text-align: center;
   border-bottom-color: #FFFFFF;
@@ -503,13 +436,13 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-right-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_bottom_border {
+#lmbdxgtrca .gt_bottom_border {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_col_headings {
+#lmbdxgtrca .gt_col_headings {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -524,7 +457,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-right-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_col_heading {
+#lmbdxgtrca .gt_col_heading {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -544,7 +477,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   overflow-x: hidden;
 }
 
-#dpfgxhrorl .gt_column_spanner_outer {
+#lmbdxgtrca .gt_column_spanner_outer {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -556,15 +489,15 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 4px;
 }
 
-#dpfgxhrorl .gt_column_spanner_outer:first-child {
+#lmbdxgtrca .gt_column_spanner_outer:first-child {
   padding-left: 0;
 }
 
-#dpfgxhrorl .gt_column_spanner_outer:last-child {
+#lmbdxgtrca .gt_column_spanner_outer:last-child {
   padding-right: 0;
 }
 
-#dpfgxhrorl .gt_column_spanner {
+#lmbdxgtrca .gt_column_spanner {
   border-bottom-style: none;
   border-bottom-width: 2px;
   border-bottom-color: #D3D3D3;
@@ -576,11 +509,11 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   width: 100%;
 }
 
-#dpfgxhrorl .gt_spanner_row {
+#lmbdxgtrca .gt_spanner_row {
   border-bottom-style: hidden;
 }
 
-#dpfgxhrorl .gt_group_heading {
+#lmbdxgtrca .gt_group_heading {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -606,7 +539,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   text-align: left;
 }
 
-#dpfgxhrorl .gt_empty_group_heading {
+#lmbdxgtrca .gt_empty_group_heading {
   padding: 0.5px;
   color: #333333;
   background-color: #FFFFFF;
@@ -621,15 +554,15 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   vertical-align: middle;
 }
 
-#dpfgxhrorl .gt_from_md > :first-child {
+#lmbdxgtrca .gt_from_md > :first-child {
   margin-top: 0;
 }
 
-#dpfgxhrorl .gt_from_md > :last-child {
+#lmbdxgtrca .gt_from_md > :last-child {
   margin-bottom: 0;
 }
 
-#dpfgxhrorl .gt_row {
+#lmbdxgtrca .gt_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -648,7 +581,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   overflow-x: hidden;
 }
 
-#dpfgxhrorl .gt_stub {
+#lmbdxgtrca .gt_stub {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -661,7 +594,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 5px;
 }
 
-#dpfgxhrorl .gt_stub_row_group {
+#lmbdxgtrca .gt_stub_row_group {
   color: #333333;
   background-color: #FFFFFF;
   font-size: 100%;
@@ -675,15 +608,15 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   vertical-align: top;
 }
 
-#dpfgxhrorl .gt_row_group_first td {
+#lmbdxgtrca .gt_row_group_first td {
   border-top-width: 2px;
 }
 
-#dpfgxhrorl .gt_row_group_first th {
+#lmbdxgtrca .gt_row_group_first th {
   border-top-width: 2px;
 }
 
-#dpfgxhrorl .gt_summary_row {
+#lmbdxgtrca .gt_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -693,16 +626,16 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 5px;
 }
 
-#dpfgxhrorl .gt_first_summary_row {
+#lmbdxgtrca .gt_first_summary_row {
   border-top-style: none;
   border-top-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_first_summary_row.thick {
+#lmbdxgtrca .gt_first_summary_row.thick {
   border-top-width: 2px;
 }
 
-#dpfgxhrorl .gt_last_summary_row {
+#lmbdxgtrca .gt_last_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -712,7 +645,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-bottom-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_grand_summary_row {
+#lmbdxgtrca .gt_grand_summary_row {
   color: #333333;
   background-color: #FFFFFF;
   text-transform: inherit;
@@ -722,7 +655,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 5px;
 }
 
-#dpfgxhrorl .gt_first_grand_summary_row {
+#lmbdxgtrca .gt_first_grand_summary_row {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -732,7 +665,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-top-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_last_grand_summary_row_top {
+#lmbdxgtrca .gt_last_grand_summary_row_top {
   padding-top: 8px;
   padding-bottom: 8px;
   padding-left: 5px;
@@ -742,11 +675,11 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-bottom-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_striped {
+#lmbdxgtrca .gt_striped {
   background-color: rgba(128, 128, 128, 0.05);
 }
 
-#dpfgxhrorl .gt_table_body {
+#lmbdxgtrca .gt_table_body {
   border-top-style: none;
   border-top-width: 2px;
   border-top-color: #D3D3D3;
@@ -755,7 +688,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-bottom-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_footnotes {
+#lmbdxgtrca .gt_footnotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -769,7 +702,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-right-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_footnote {
+#lmbdxgtrca .gt_footnote {
   margin: 0px;
   font-size: 90%;
   padding-top: 4px;
@@ -778,7 +711,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 5px;
 }
 
-#dpfgxhrorl .gt_sourcenotes {
+#lmbdxgtrca .gt_sourcenotes {
   color: #333333;
   background-color: #FFFFFF;
   border-bottom-style: none;
@@ -792,7 +725,7 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   border-right-color: #D3D3D3;
 }
 
-#dpfgxhrorl .gt_sourcenote {
+#lmbdxgtrca .gt_sourcenote {
   font-size: 90%;
   padding-top: 4px;
   padding-bottom: 4px;
@@ -800,63 +733,63 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
   padding-right: 5px;
 }
 
-#dpfgxhrorl .gt_left {
+#lmbdxgtrca .gt_left {
   text-align: left;
 }
 
-#dpfgxhrorl .gt_center {
+#lmbdxgtrca .gt_center {
   text-align: center;
 }
 
-#dpfgxhrorl .gt_right {
+#lmbdxgtrca .gt_right {
   text-align: right;
   font-variant-numeric: tabular-nums;
 }
 
-#dpfgxhrorl .gt_font_normal {
+#lmbdxgtrca .gt_font_normal {
   font-weight: normal;
 }
 
-#dpfgxhrorl .gt_font_bold {
+#lmbdxgtrca .gt_font_bold {
   font-weight: bold;
 }
 
-#dpfgxhrorl .gt_font_italic {
+#lmbdxgtrca .gt_font_italic {
   font-style: italic;
 }
 
-#dpfgxhrorl .gt_super {
+#lmbdxgtrca .gt_super {
   font-size: 65%;
 }
 
-#dpfgxhrorl .gt_footnote_marks {
+#lmbdxgtrca .gt_footnote_marks {
   font-size: 75%;
   vertical-align: 0.4em;
   position: initial;
 }
 
-#dpfgxhrorl .gt_asterisk {
+#lmbdxgtrca .gt_asterisk {
   font-size: 100%;
   vertical-align: 0;
 }
 
-#dpfgxhrorl .gt_indent_1 {
+#lmbdxgtrca .gt_indent_1 {
   text-indent: 5px;
 }
 
-#dpfgxhrorl .gt_indent_2 {
+#lmbdxgtrca .gt_indent_2 {
   text-indent: 10px;
 }
 
-#dpfgxhrorl .gt_indent_3 {
+#lmbdxgtrca .gt_indent_3 {
   text-indent: 15px;
 }
 
-#dpfgxhrorl .gt_indent_4 {
+#lmbdxgtrca .gt_indent_4 {
   text-indent: 20px;
 }
 
-#dpfgxhrorl .gt_indent_5 {
+#lmbdxgtrca .gt_indent_5 {
   text-indent: 25px;
 }
 </style>
@@ -963,32 +896,20 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
 <div class="cell">
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb16"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"srconf.csv"</span>)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
-</details>
-<div class="cell-output cell-output-stderr">
-<pre><code>Rows: 362 Columns: 30
-── Column specification ────────────────────────────────────────────────────────
-Delimiter: ","
-chr  (2): School, Conference
-dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
-
-ℹ Use `spec()` to retrieve the full column specification for this data.
-ℹ Specify the column types or set `show_col_types = FALSE` to quiet this message.</code></pre>
-</div>
-<details class="code-fold">
-<summary>Code</summary>
-<div class="sourceCode cell-code" id="cb18"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a>tourneyt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Colorado State"</span>,<span class="st">"Wagner"</span>,<span class="st">"Howard"</span>,<span class="st">"Grambling"</span>,<span class="st">"Montana State"</span>,<span class="st">"Oakland"</span>,<span class="st">"Kentucky"</span>,<span class="st">"Michigan State"</span>,<span class="st">"Mississippi State"</span>,<span class="st">"Duquesne"</span>,<span class="st">"Brigham Young"</span>,<span class="st">"Akron"</span>,<span class="st">"Creighton"</span>,<span class="st">"Long Beach State"</span>,<span class="st">"Arizona"</span>,<span class="st">"North Carolina"</span>,<span class="st">"Morehead State"</span>,<span class="st">"Illinois"</span>,<span class="st">"Oregon"</span>,<span class="st">"Soutch Carolina"</span>,<span class="st">"Nevada"</span>,<span class="st">"Dayton"</span>,<span class="st">"South Dakota State"</span>,<span class="st">"Texas"</span>,<span class="st">"Iowa State"</span>,<span class="st">"Mcneese State"</span>,<span class="st">"Gonzaga"</span>,<span class="st">"Saint Peter's"</span>,<span class="st">"Tennessee"</span>,<span class="st">"NC State"</span>,<span class="st">"Texas Tech"</span>,<span class="st">"Drake"</span>,<span class="st">"Washinghton State"</span>,<span class="st">"Samford"</span>,<span class="st">"Kansas"</span>,<span class="st">"Texas A&amp;M"</span>,<span class="st">"Nebraska"</span>,<span class="st">"Northwestern"</span>,<span class="st">"Florida Atlantic"</span>,<span class="st">"Colgate"</span>,<span class="st">"Baylor"</span>,<span class="st">"UAB"</span>,<span class="st">"San Diego State"</span>,<span class="st">"Western Kentucky"</span>,<span class="st">"Marquette"</span>,<span class="st">"New Mexico"</span>,<span class="st">"Clemson"</span>,<span class="st">"Stetson"</span>,<span class="st">"Connecticut"</span>,<span class="st">"Yale"</span>,<span class="st">"Auburn"</span>,<span class="st">"Colorado"</span>,<span class="st">"Florida"</span>,<span class="st">"Vermont"</span>,<span class="st">"Duke"</span>,<span class="st">"Purdue"</span>,<span class="st">"Charleston"</span>,<span class="st">"Alabama"</span>,<span class="st">"Houston"</span>,<span class="st">"Longwood"</span>,<span class="st">"James Madison"</span>,<span class="st">"Wisconsin"</span>,<span class="st">"TCU"</span>,<span class="st">"Utah State"</span>,<span class="st">"Grand Canyon"</span>,<span class="st">"Saint Mary's"</span>,<span class="st">"Boise State"</span>)</span>
-<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>schoolsrc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana State"</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
-<span id="cb18-3"><a href="#cb18-3" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-4"><a href="#cb18-4" aria-hidden="true" tabindex="-1"></a>conferences <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ACC"</span>, <span class="st">"BTEN"</span>, <span class="st">"BIG12"</span>, <span class="st">"PAC12"</span>, <span class="st">"BE"</span>, <span class="st">"MWC"</span>)</span>
-<span id="cb18-5"><a href="#cb18-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-6"><a href="#cb18-6" aria-hidden="true" tabindex="-1"></a>vcc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>)</span>
-<span id="cb18-7"><a href="#cb18-7" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-8"><a href="#cb18-8" aria-hidden="true" tabindex="-1"></a>virgin <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
-<span id="cb18-9"><a href="#cb18-9" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb18-10"><a href="#cb18-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> vcc)</span>
-<span id="cb18-11"><a href="#cb18-11" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb18-12"><a href="#cb18-12" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a>conf <span class="ot">&lt;-</span> <span class="fu">read_csv</span>(<span class="st">"srconf.csv"</span>)</span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>tourneyt <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Colorado State"</span>,<span class="st">"Wagner"</span>,<span class="st">"Howard"</span>,<span class="st">"Grambling"</span>,<span class="st">"Montana State"</span>,<span class="st">"Oakland"</span>,<span class="st">"Kentucky"</span>,<span class="st">"Michigan State"</span>,<span class="st">"Mississippi State"</span>,<span class="st">"Duquesne"</span>,<span class="st">"Brigham Young"</span>,<span class="st">"Akron"</span>,<span class="st">"Creighton"</span>,<span class="st">"Long Beach State"</span>,<span class="st">"Arizona"</span>,<span class="st">"North Carolina"</span>,<span class="st">"Morehead State"</span>,<span class="st">"Illinois"</span>,<span class="st">"Oregon"</span>,<span class="st">"Soutch Carolina"</span>,<span class="st">"Nevada"</span>,<span class="st">"Dayton"</span>,<span class="st">"South Dakota State"</span>,<span class="st">"Texas"</span>,<span class="st">"Iowa State"</span>,<span class="st">"Mcneese State"</span>,<span class="st">"Gonzaga"</span>,<span class="st">"Saint Peter's"</span>,<span class="st">"Tennessee"</span>,<span class="st">"NC State"</span>,<span class="st">"Texas Tech"</span>,<span class="st">"Drake"</span>,<span class="st">"Washinghton State"</span>,<span class="st">"Samford"</span>,<span class="st">"Kansas"</span>,<span class="st">"Texas A&amp;M"</span>,<span class="st">"Nebraska"</span>,<span class="st">"Northwestern"</span>,<span class="st">"Florida Atlantic"</span>,<span class="st">"Colgate"</span>,<span class="st">"Baylor"</span>,<span class="st">"UAB"</span>,<span class="st">"San Diego State"</span>,<span class="st">"Western Kentucky"</span>,<span class="st">"Marquette"</span>,<span class="st">"New Mexico"</span>,<span class="st">"Clemson"</span>,<span class="st">"Stetson"</span>,<span class="st">"Connecticut"</span>,<span class="st">"Yale"</span>,<span class="st">"Auburn"</span>,<span class="st">"Colorado"</span>,<span class="st">"Florida"</span>,<span class="st">"Vermont"</span>,<span class="st">"Duke"</span>,<span class="st">"Purdue"</span>,<span class="st">"Charleston"</span>,<span class="st">"Alabama"</span>,<span class="st">"Houston"</span>,<span class="st">"Longwood"</span>,<span class="st">"James Madison"</span>,<span class="st">"Wisconsin"</span>,<span class="st">"TCU"</span>,<span class="st">"Utah State"</span>,<span class="st">"Grand Canyon"</span>,<span class="st">"Saint Mary's"</span>,<span class="st">"Boise State"</span>)</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>schoolsrc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>,<span class="st">"Pittsburgh"</span>,<span class="st">"Wake Forest"</span>,<span class="st">"Villanova"</span>,<span class="st">"Indiana State"</span>,<span class="st">"Cincinnati"</span>,<span class="st">"Oklahoma"</span>,<span class="st">"St. John's (NY)"</span>,<span class="st">"Seton Hall"</span>, <span class="st">"Providence"</span>)</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>conferences <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"ACC"</span>, <span class="st">"BTEN"</span>, <span class="st">"BIG12"</span>, <span class="st">"PAC12"</span>, <span class="st">"BE"</span>, <span class="st">"MWC"</span>)</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>vcc <span class="ot">&lt;-</span> <span class="fu">c</span>(<span class="st">"Virginia"</span>)</span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>virgin <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
+<span id="cb7-11"><a href="#cb7-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb7-12"><a href="#cb7-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> vcc)</span>
+<span id="cb7-13"><a href="#cb7-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb7-14"><a href="#cb7-14" aria-hidden="true" tabindex="-1"></a><span class="fu">head</span>(conf)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output cell-output-stdout">
 <pre><code># A tibble: 6 × 30
@@ -1008,41 +929,41 @@ dbl (28): Rk, G, W, L, W-L%, SRS, SOS, Conf. W, Conf. L, Home W, Home L, Awa...
 </div>
 <details class="code-fold">
 <summary>Code</summary>
-<div class="sourceCode cell-code" id="cb20"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a>tourn <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
-<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> tourneyt) <span class="sc">|&gt;</span></span>
-<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
-<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> conf<span class="sc">|&gt;</span></span>
-<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
-<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a>otourn <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
-<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
-<span id="cb20-11"><a href="#cb20-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> schoolsrc)<span class="sc">|&gt;</span></span>
-<span id="cb20-12"><a href="#cb20-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
-<span id="cb20-13"><a href="#cb20-13" aria-hidden="true" tabindex="-1"></a></span>
-<span id="cb20-14"><a href="#cb20-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
-<span id="cb20-15"><a href="#cb20-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
-<span id="cb20-16"><a href="#cb20-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>power, </span>
-<span id="cb20-17"><a href="#cb20-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"#009CDE"</span>) <span class="sc">+</span></span>
-<span id="cb20-18"><a href="#cb20-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
-<span id="cb20-19"><a href="#cb20-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>tourn, </span>
-<span id="cb20-20"><a href="#cb20-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"grey"</span>) <span class="sc">+</span></span>
-<span id="cb20-21"><a href="#cb20-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
-<span id="cb20-22"><a href="#cb20-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>virgin, </span>
-<span id="cb20-23"><a href="#cb20-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"#F84C1E"</span>) <span class="sc">+</span></span>
-<span id="cb20-24"><a href="#cb20-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
-<span id="cb20-25"><a href="#cb20-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>virgin,</span>
-<span id="cb20-26"><a href="#cb20-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference, <span class="at">label=</span>School)) <span class="sc">+</span></span>
-<span id="cb20-27"><a href="#cb20-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Conference"</span>, <span class="at">y=</span><span class="st">"Simple Rating"</span>, <span class="at">title=</span><span class="st">"Virginia's Simple Rating Compared to Other Power Conference Teams"</span>, <span class="at">subtitle=</span><span class="st">"Virginia is trailing other power conference teams who didn't make the tournament."</span>, <span class="at">caption=</span><span class="st">"Source: Sports Reference | By Logan Young-Glenn"</span>) <span class="sc">+</span></span>
-<span id="cb20-28"><a href="#cb20-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
-<span id="cb20-29"><a href="#cb20-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
-<span id="cb20-30"><a href="#cb20-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>( <span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
-<span id="cb20-31"><a href="#cb20-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>), </span>
-<span id="cb20-32"><a href="#cb20-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
-<span id="cb20-33"><a href="#cb20-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
-<span id="cb20-34"><a href="#cb20-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
-<span id="cb20-35"><a href="#cb20-35" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode cell-code" id="cb9"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a>tourn <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> tourneyt) <span class="sc">|&gt;</span></span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>power <span class="ot">&lt;-</span> conf<span class="sc">|&gt;</span></span>
+<span id="cb9-7"><a href="#cb9-7" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
+<span id="cb9-8"><a href="#cb9-8" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-9"><a href="#cb9-9" aria-hidden="true" tabindex="-1"></a>otourn <span class="ot">&lt;-</span> conf <span class="sc">|&gt;</span></span>
+<span id="cb9-10"><a href="#cb9-10" aria-hidden="true" tabindex="-1"></a>  <span class="fu">arrange</span>(Rk) <span class="sc">|&gt;</span></span>
+<span id="cb9-11"><a href="#cb9-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( School <span class="sc">%in%</span> schoolsrc)<span class="sc">|&gt;</span></span>
+<span id="cb9-12"><a href="#cb9-12" aria-hidden="true" tabindex="-1"></a>  <span class="fu">filter</span>( Conference <span class="sc">%in%</span> conferences)</span>
+<span id="cb9-13"><a href="#cb9-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb9-14"><a href="#cb9-14" aria-hidden="true" tabindex="-1"></a><span class="fu">ggplot</span>() <span class="sc">+</span> </span>
+<span id="cb9-15"><a href="#cb9-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
+<span id="cb9-16"><a href="#cb9-16" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>power, </span>
+<span id="cb9-17"><a href="#cb9-17" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"#009CDE"</span>) <span class="sc">+</span></span>
+<span id="cb9-18"><a href="#cb9-18" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
+<span id="cb9-19"><a href="#cb9-19" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>tourn, </span>
+<span id="cb9-20"><a href="#cb9-20" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"grey"</span>) <span class="sc">+</span></span>
+<span id="cb9-21"><a href="#cb9-21" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_beeswarm</span>(</span>
+<span id="cb9-22"><a href="#cb9-22" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>virgin, </span>
+<span id="cb9-23"><a href="#cb9-23" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference), <span class="at">color=</span><span class="st">"#F84C1E"</span>) <span class="sc">+</span></span>
+<span id="cb9-24"><a href="#cb9-24" aria-hidden="true" tabindex="-1"></a>  <span class="fu">geom_text_repel</span>(</span>
+<span id="cb9-25"><a href="#cb9-25" aria-hidden="true" tabindex="-1"></a>    <span class="at">data=</span>virgin,</span>
+<span id="cb9-26"><a href="#cb9-26" aria-hidden="true" tabindex="-1"></a>    <span class="fu">aes</span>(<span class="at">x=</span>SRS, <span class="at">y=</span>Conference, <span class="at">label=</span>School)) <span class="sc">+</span></span>
+<span id="cb9-27"><a href="#cb9-27" aria-hidden="true" tabindex="-1"></a>  <span class="fu">labs</span>(<span class="at">x=</span><span class="st">"Conference"</span>, <span class="at">y=</span><span class="st">"Simple Rating"</span>, <span class="at">title=</span><span class="st">"Virginia's Simple Rating Compared to Other Power Conference Teams"</span>, <span class="at">subtitle=</span><span class="st">"Virginia is trailing other power conference teams who didn't make the tournament."</span>, <span class="at">caption=</span><span class="st">"Source: Sports Reference | By Logan Young-Glenn"</span>) <span class="sc">+</span></span>
+<span id="cb9-28"><a href="#cb9-28" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme_minimal</span>() <span class="sc">+</span></span>
+<span id="cb9-29"><a href="#cb9-29" aria-hidden="true" tabindex="-1"></a>  <span class="fu">theme</span>(</span>
+<span id="cb9-30"><a href="#cb9-30" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title =</span> <span class="fu">element_text</span>( <span class="at">size =</span> <span class="dv">15</span>, <span class="at">face =</span> <span class="st">"bold"</span>),</span>
+<span id="cb9-31"><a href="#cb9-31" aria-hidden="true" tabindex="-1"></a>    <span class="at">axis.title =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">9</span>), </span>
+<span id="cb9-32"><a href="#cb9-32" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.subtitle =</span> <span class="fu">element_text</span>(<span class="at">size =</span> <span class="dv">10</span>),</span>
+<span id="cb9-33"><a href="#cb9-33" aria-hidden="true" tabindex="-1"></a>    <span class="at">panel.grid.minor =</span> <span class="fu">element_blank</span>(),</span>
+<span id="cb9-34"><a href="#cb9-34" aria-hidden="true" tabindex="-1"></a>    <span class="at">plot.title.position =</span> <span class="st">"plot"</span></span>
+<span id="cb9-35"><a href="#cb9-35" aria-hidden="true" tabindex="-1"></a>  ) </span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 </details>
 <div class="cell-output-display">
 <div>
